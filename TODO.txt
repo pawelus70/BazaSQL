@@ -1,0 +1,7 @@
+Procedura z usunięciem
+Strona:
+-Filtrowanie
+-Dodawanie danych
+-Usuwanie danych
+-Update danych
+-Szukanie danych
