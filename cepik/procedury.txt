@@ -1,0 +1,49 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochod`()
+SELECT * FROM samochod$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByRej`(IN `Rej` VARCHAR(8))
+    COMMENT 'Pobranie samochodu po numerze rejestracyjnym '
+SELECT * FROM samochod
+WHERE nr_rejestracyjny LIKE  CONCAT('%',Rej,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByVin`(IN `Vin` VARCHAR(17))
+SELECT * FROM samochod
+WHERE VIN LIKE  CONCAT('%',Vin,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndMarka`()
+SELECT samochod.nr_rejestracyjny, model.marka, samochod.model, samochod.kolor, samochod.kategoria 
+FROM samochod
+INNER JOIN model
+	ON (model.kod_modelu = samochod.model)$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndWlasciciel`()
+SELECT osoba.imie, osoba.nazwisko, osoba.PESEL, 
+samochod.nr_rejestracyjny
+FROM osoba
+INNER JOIN typ_wlasciciela
+	ON (typ_wlasciciela.pesel_osoby = osoba.PESEL)
+INNER JOIN samochod
+	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
+WHERE typ_wlasciciela.typ = "wlasciciel"$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndWlascicielByRej`(IN `Rej` VARCHAR(8))
+SELECT osoba.imie, osoba.nazwisko, osoba.PESEL, 
+samochod.nr_rejestracyjny
+FROM osoba
+INNER JOIN typ_wlasciciela
+	ON (typ_wlasciciela.pesel_osoby = osoba.PESEL)
+INNER JOIN samochod
+	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
+WHERE typ_wlasciciela.typ = "wlasciciel" AND samochod.nr_rejestracyjny LIKE CONCAT("%",Rej,'%')$$
+DELIMITER ;

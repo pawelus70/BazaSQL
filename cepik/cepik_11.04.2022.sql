@@ -2,8 +2,8 @@
 -- version 5.1.4-dev+20220402.3ab83d8201
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Czas generowania: 04 Kwi 2022, 18:35
+-- Host: localhost
+-- Czas generowania: 11 Kwi 2022, 14:32
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.4
 
@@ -21,12 +21,56 @@ SET time_zone = "+00:00";
 -- Baza danych: `cepik`
 --
 
+DELIMITER $$
+--
+-- Procedury
+--
+DROP PROCEDURE IF EXISTS `selectSamochod`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochod` ()   SELECT * FROM samochod$$
+
+DROP PROCEDURE IF EXISTS `selectSamochodAndMarka`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndMarka` ()   SELECT samochod.nr_rejestracyjny, model.marka, samochod.model, samochod.kolor, samochod.kategoria 
+FROM samochod
+INNER JOIN model
+	ON (model.kod_modelu = samochod.model)$$
+
+DROP PROCEDURE IF EXISTS `selectSamochodAndWlasciciel`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndWlasciciel` ()   SELECT osoba.imie, osoba.nazwisko, osoba.PESEL, 
+samochod.nr_rejestracyjny
+FROM osoba
+INNER JOIN typ_wlasciciela
+	ON (typ_wlasciciela.pesel_osoby = osoba.PESEL)
+INNER JOIN samochod
+	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
+WHERE typ_wlasciciela.typ = "wlasciciel"$$
+
+DROP PROCEDURE IF EXISTS `selectSamochodAndWlascicielByRej`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndWlascicielByRej` (IN `Rej` VARCHAR(8))   SELECT osoba.imie, osoba.nazwisko, osoba.PESEL, 
+samochod.nr_rejestracyjny
+FROM osoba
+INNER JOIN typ_wlasciciela
+	ON (typ_wlasciciela.pesel_osoby = osoba.PESEL)
+INNER JOIN samochod
+	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
+WHERE typ_wlasciciela.typ = "wlasciciel" AND samochod.nr_rejestracyjny LIKE CONCAT("%",Rej,'%')$$
+
+DROP PROCEDURE IF EXISTS `selectSamochodByRej`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByRej` (IN `Rej` VARCHAR(8))  COMMENT 'Pobranie samochodu po numerze rejestracyjnym ' SELECT * FROM samochod
+WHERE nr_rejestracyjny LIKE  CONCAT('%',Rej,'%')$$
+
+DROP PROCEDURE IF EXISTS `selectSamochodByVin`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByVin` (IN `Vin` VARCHAR(17))   SELECT * FROM samochod
+WHERE VIN LIKE  CONCAT('%',Vin,'%')$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `badania`
 --
 
+DROP TABLE IF EXISTS `badania`;
 CREATE TABLE `badania` (
   `vin_pojazdu` varchar(17) NOT NULL,
   `data_waznosci_badania` date NOT NULL,
@@ -46,6 +90,7 @@ INSERT INTO `badania` (`vin_pojazdu`, `data_waznosci_badania`, `data_ost_badania
 --
 -- Wyzwalacze `badania`
 --
+DROP TRIGGER IF EXISTS `zmienDatePrzegladu`;
 DELIMITER $$
 CREATE TRIGGER `zmienDatePrzegladu` AFTER INSERT ON `badania` FOR EACH ROW BEGIN
 
@@ -61,6 +106,7 @@ DELIMITER ;
 -- Struktura tabeli dla tabeli `historia_wlascicieli`
 --
 
+DROP TABLE IF EXISTS `historia_wlascicieli`;
 CREATE TABLE `historia_wlascicieli` (
   `vin_pojazdu` varchar(17) NOT NULL,
   `pesel_wlasciciela` bigint(11) NOT NULL,
@@ -80,6 +126,7 @@ INSERT INTO `historia_wlascicieli` (`vin_pojazdu`, `pesel_wlasciciela`, `data_zm
 -- Struktura tabeli dla tabeli `marka`
 --
 
+DROP TABLE IF EXISTS `marka`;
 CREATE TABLE `marka` (
   `nazwa_marki` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -98,6 +145,7 @@ INSERT INTO `marka` (`nazwa_marki`) VALUES
 -- Struktura tabeli dla tabeli `model`
 --
 
+DROP TABLE IF EXISTS `model`;
 CREATE TABLE `model` (
   `kod_modelu` varchar(45) NOT NULL,
   `marka` varchar(45) NOT NULL,
@@ -118,6 +166,7 @@ INSERT INTO `model` (`kod_modelu`, `marka`, `dodatkowe_informacje`) VALUES
 -- Struktura tabeli dla tabeli `osoba`
 --
 
+DROP TABLE IF EXISTS `osoba`;
 CREATE TABLE `osoba` (
   `imie` varchar(45) NOT NULL,
   `nazwisko` varchar(45) NOT NULL,
@@ -143,6 +192,7 @@ INSERT INTO `osoba` (`imie`, `nazwisko`, `PESEL`, `miejscowosc`, `adres`, `nr_bl
 -- Struktura tabeli dla tabeli `przebieg`
 --
 
+DROP TABLE IF EXISTS `przebieg`;
 CREATE TABLE `przebieg` (
   `vin_pojazdu` varchar(17) NOT NULL,
   `przebieg` int(12) NOT NULL,
@@ -155,6 +205,7 @@ CREATE TABLE `przebieg` (
 -- Struktura tabeli dla tabeli `samochod`
 --
 
+DROP TABLE IF EXISTS `samochod`;
 CREATE TABLE `samochod` (
   `nr_rejestracyjny` varchar(8) NOT NULL,
   `VIN` varchar(17) NOT NULL,
@@ -179,6 +230,7 @@ INSERT INTO `samochod` (`nr_rejestracyjny`, `VIN`, `pojemnosc`, `data_pierwszej_
 -- Struktura tabeli dla tabeli `typ_wlasciciela`
 --
 
+DROP TABLE IF EXISTS `typ_wlasciciela`;
 CREATE TABLE `typ_wlasciciela` (
   `vin_pojazdu` varchar(17) NOT NULL,
   `typ` varchar(16) NOT NULL,
@@ -196,6 +248,7 @@ INSERT INTO `typ_wlasciciela` (`vin_pojazdu`, `typ`, `pesel_osoby`) VALUES
 --
 -- Wyzwalacze `typ_wlasciciela`
 --
+DROP TRIGGER IF EXISTS `sprawdzWlasciciela`;
 DELIMITER $$
 CREATE TRIGGER `sprawdzWlasciciela` BEFORE INSERT ON `typ_wlasciciela` FOR EACH ROW BEGIN
         IF NEW.typ in (
@@ -209,6 +262,7 @@ CREATE TRIGGER `sprawdzWlasciciela` BEFORE INSERT ON `typ_wlasciciela` FOR EACH 
     END
 $$
 DELIMITER ;
+DROP TRIGGER IF EXISTS `zmianaWlasciciela`;
 DELIMITER $$
 CREATE TRIGGER `zmianaWlasciciela` BEFORE UPDATE ON `typ_wlasciciela` FOR EACH ROW BEGIN
     
@@ -225,6 +279,7 @@ DELIMITER ;
 -- Struktura tabeli dla tabeli `usterki`
 --
 
+DROP TABLE IF EXISTS `usterki`;
 CREATE TABLE `usterki` (
   `kod_usterki` int(9) NOT NULL,
   `opis_usterki` varchar(255) NOT NULL
