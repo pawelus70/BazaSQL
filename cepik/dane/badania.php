@@ -6,7 +6,7 @@
 
 <?php
 require 'conn.php';
-$result = $mysqli->query("SELECT * FROM badania");
+$result = $mysqli->query("call selectBadania");
 printf("Select returned %d rows.\n", $result->num_rows, '\n');
 ?>
 <table>

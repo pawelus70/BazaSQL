@@ -6,7 +6,7 @@
 
 <?php
 require 'conn.php';
-$result = $mysqli->query("SELECT * FROM przebieg");
+$result = $mysqli->query("call selectPrzebieg");
 printf("Select returned %d rows.\n", $result->num_rows, '\n');
 ?>
 <table>

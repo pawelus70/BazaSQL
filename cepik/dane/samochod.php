@@ -30,6 +30,12 @@ printf("Select returned %d rows.\n", $result->num_rows, '\n');
      <td><?php echo $row["model"];?></td>
      <td><?php echo $row["kolor"];?></td>
      <td><?php echo $row["data_waznosci_badania"];?></td>
+     <td> 
+     <form name="rej" action="wlascicieleByRej.php" method="GET">
+      <!-- Then add a submit value & close your form -->
+      <input type="submit" name="rej" value="<?php echo $row["nr_rejestracyjny"]; ?>" />
+      </form>
+      </td>
    </tr>
    <?php } ?>
 </table>

@@ -6,7 +6,7 @@
 
 <?php
 require 'conn.php';
-$result = $mysqli->query("SELECT * FROM model");
+$result = $mysqli->query("call selectModel");
 printf("Select returned %d rows.\n", $result->num_rows, '\n');
 ?>
 <table>

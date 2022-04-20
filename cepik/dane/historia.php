@@ -6,7 +6,7 @@
 
 <?php
 require 'conn.php';
-$result = $mysqli->query("SELECT * FROM historia_wlascicieli");
+$result = $mysqli->query("call selectHistoria");
 printf("Select returned %d rows.\n", $result->num_rows, '\n');
 ?>
 <table>

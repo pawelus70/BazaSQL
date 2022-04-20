@@ -6,7 +6,7 @@
 
 <?php
 require 'conn.php';
-$result = $mysqli->query("SELECT * FROM typ_wlasciciela");
+$result = $mysqli->query("call selectWlasciciel");
 printf("Select returned %d rows.\n", $result->num_rows, '\n');
 ?>
 <table>
@@ -20,6 +20,7 @@ printf("Select returned %d rows.\n", $result->num_rows, '\n');
      <td><?php echo $row["vin_pojazdu"]; ?></td>
      <td><?php echo $row["typ"]; ?></td>
      <td><?php echo $row["pesel_osoby"];?></td>
+     <td><button type="button">Właściciel</button></td>
    </tr>
    <?php } ?>
 </table>

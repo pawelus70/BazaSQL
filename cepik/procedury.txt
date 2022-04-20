@@ -1,19 +1,42 @@
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectBadania`()
+SELECT * FROM badania$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectHistoria`()
+SELECT * FROM historia_wlascicieli$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectMarka`()
+SELECT * FROM marka$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectModel`()
+SELECT * FROM model$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectOsoba`()
+SELECT * FROM osoba$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectOsobaByPesel`(IN `Pesel` INT(11))
+SELECT * FROM osoba
+WHERE PESEL LIKE CONCAT('%',Pesel,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectPrzebieg`()
+SELECT * FROM przebieg$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochod`()
 SELECT * FROM samochod$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByRej`(IN `Rej` VARCHAR(8))
-    COMMENT 'Pobranie samochodu po numerze rejestracyjnym '
-SELECT * FROM samochod
-WHERE nr_rejestracyjny LIKE  CONCAT('%',Rej,'%')$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByVin`(IN `Vin` VARCHAR(17))
-SELECT * FROM samochod
-WHERE VIN LIKE  CONCAT('%',Vin,'%')$$
 DELIMITER ;
 
 DELIMITER $$
@@ -46,4 +69,27 @@ INNER JOIN typ_wlasciciela
 INNER JOIN samochod
 	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
 WHERE typ_wlasciciela.typ = "wlasciciel" AND samochod.nr_rejestracyjny LIKE CONCAT("%",Rej,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByRej`(IN `Rej` VARCHAR(8))
+    COMMENT 'Pobranie samochodu po numerze rejestracyjnym '
+SELECT * FROM samochod
+WHERE nr_rejestracyjny LIKE  CONCAT('%',Rej,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByVin`(IN `Vin` VARCHAR(17))
+SELECT * FROM samochod
+WHERE VIN LIKE  CONCAT('%',Vin,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectUsterki`()
+SELECT * FROM usterki$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectWlasciciel`()
+SELECT * FROM typ_wlasciciela$$
 DELIMITER ;
