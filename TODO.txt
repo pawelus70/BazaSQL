@@ -1,7 +1,7 @@
-Procedura z usunięciem
+Procedura z usunięciem - (Nie widze)
 Strona:
--Filtrowanie
--Dodawanie danych
--Usuwanie danych
--Update danych
--Szukanie danych
+-Filtrowanie - (stworzyłeś procedury i teraz trzeba będzie na około, chyba że da się do procedur argumenty dawać \\ Chyba że chodzi o szukanie że zaczynają się od "A..." to zrobiłem już)
+-Dodawanie danych - WIP
+-Usuwanie danych - Done
+-Update danych - (po skończeniu dodawania danych)
+-Szukanie danych - Done

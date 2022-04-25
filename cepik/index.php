@@ -21,7 +21,10 @@ echo "Połączono!\r\n";
 <a href="dane/przebieg.php">przebieg</a>
 <a href="dane/samochod.php">samochod</a>
 <a href="dane/usterki.php">usterki</a>
-<a href="dane/wlasciciele.php">wlasciciele</a>
+<a href="dane/wlasciciele.php">wlasciciele</a><br>
+<p>Chwilowo tutaj powstają formularze dodawania: </p>
+<a href="forms/formSamochody.php">dodaj_samochod</a><br>
+
 
 
 </body>
