@@ -1,4 +1,9 @@
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteOsobaByPesel`(IN `Wyrzuc` BIGINT(11))
+DELETE FROM osoba WHERE PESEL = Wyrzuc$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectBadania`()
 SELECT * FROM badania$$
 DELIMITER ;
@@ -27,6 +32,11 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectOsobaByPesel`(IN `Pesel` INT(11))
 SELECT * FROM osoba
 WHERE PESEL LIKE CONCAT('%',Pesel,'%')$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectOsobaBySmth`(IN `lista_szuk` VARCHAR(255), IN `pola_szuk` VARCHAR(255))
+SELECT * FROM osoba WHERE lista_szuk LIKE CONCAT('%',pola_szuk,'%') ORDER BY lista_szuk ASC$$
 DELIMITER ;
 
 DELIMITER $$
@@ -60,18 +70,6 @@ WHERE typ_wlasciciela.typ = "wlasciciel"$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndWlascicielByRej`(IN `Rej` VARCHAR(8))
-SELECT osoba.imie, osoba.nazwisko, osoba.PESEL, 
-samochod.nr_rejestracyjny
-FROM osoba
-INNER JOIN typ_wlasciciela
-	ON (typ_wlasciciela.pesel_osoby = osoba.PESEL)
-INNER JOIN samochod
-	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
-WHERE typ_wlasciciela.typ = "wlasciciel" AND samochod.nr_rejestracyjny LIKE CONCAT("%",Rej,'%')$$
-DELIMITER ;
-
-DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodByRej`(IN `Rej` VARCHAR(8))
     COMMENT 'Pobranie samochodu po numerze rejestracyjnym '
 SELECT * FROM samochod
@@ -92,4 +90,15 @@ DELIMITER ;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectWlasciciel`()
 SELECT * FROM typ_wlasciciela$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectSamochodAndWlascicielByRej`(IN `Rej` VARCHAR(8))
+SELECT osoba.imie, osoba.nazwisko, osoba.PESEL, typ_wlasciciela.typ, samochod.nr_rejestracyjny
+FROM osoba
+INNER JOIN typ_wlasciciela
+	ON (typ_wlasciciela.pesel_osoby = osoba.PESEL)
+INNER JOIN samochod
+	ON ( typ_wlasciciela.vin_pojazdu = samochod.VIN)
+WHERE samochod.nr_rejestracyjny LIKE CONCAT("%",Rej,'%')$$
 DELIMITER ;

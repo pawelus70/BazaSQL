@@ -6,14 +6,16 @@
 
 <?php
 require 'conn.php';
-if(!empty($_POST["pola_szukaj"])){
-	$pola_szuk = ($_POST["pola_szukaj"]);
-	$lista_szuk = ($_POST["typ_szukania"]);
+if(!empty($_GET["pola_szukaj"])){
+	$pola_szuk = ($_GET["pola_szukaj"]);
+	$lista_szuk = ($_GET["typ_szukania"]);
+  //$result = $mysqli->query("call selectOsobaBySmth('$pola_szuk ','$lista_szuk ')");
 	$result = $mysqli->query("SELECT * FROM osoba WHERE $lista_szuk LIKE '$pola_szuk%' ORDER BY $lista_szuk ASC");
 }else{
-	if(!empty($_POST["kosz"])){
-	$wyrzuc = $_POST["kosz"];
-	$mysqli->query("DELETE FROM osoba WHERE PESEL = '$wyrzuc'");
+	if(!empty($_GET["kosz"])){
+	$wyrzuc = $_GET["kosz"];
+  $mysqli->query("call deleteOsobaByPesel('$wyrzuc')");
+	//$mysqli->query("DELETE FROM osoba WHERE PESEL = '$wyrzuc'");
 }
 	$result = $mysqli->query("call selectOsoba");
 }
@@ -42,7 +44,7 @@ if($result->num_rows == 0){
      <td><?php echo $row["nr_blok"];?></td>
      <td><?php echo $row["kod_pocztowy"];?></td>
 	 <td>
-		<form action="osoba.php" method="POST">
+		<form action="osoba.php" method="GET">
 		<input type="hidden" name="kosz" value="<?php echo $row["PESEL"]; ?>">
 		<input type="submit" value="usuń">
 		</form>
@@ -50,7 +52,7 @@ if($result->num_rows == 0){
    </tr>
    <?php } ?>
 </table>
-<form action="osoba.php" method="post">
+<form action="osoba.php" method="GET">
 Szukaj wg: 
 <select name="typ_szukania">
 <option value="imie">Imie</option>

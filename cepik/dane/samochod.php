@@ -44,11 +44,12 @@ if($result->num_rows == 0){
      <td><?php echo $row["kolor"];?></td>
      <td><?php echo $row["data_waznosci_badania"];?></td>
      <td> 
-     <form name="rej" action="wlascicieleByRej.php" method="GET">
+    <form name="rej" action="wlascicieleByRej.php" method="GET">
       <!-- Then add a submit value & close your form -->
-      <input type="submit" name="rej" value="<?php echo $row["nr_rejestracyjny"]; ?>" />
+      <input type="hidden" name="rej" value="<?php echo $row["nr_rejestracyjny"]; ?>" />
+      <input type="submit" value="Właściciel">
       </form>
-      </td>
+    </td>
 	 <td>
 		<form action="samochod.php" method="POST">
 		<input type="hidden" name="kosz" value="<?php echo $row["VIN"]; ?>">
