@@ -21,8 +21,8 @@ if(!empty($_POST["VIN"])){
 	}else{
 		echo("Dodano pomyślnie");
 	}		
-	
 }
+$result = $mysqli->query("SELECT * FROM `model`");
 
 ?>
 
@@ -33,7 +33,15 @@ VIN pojazdu: <input type="text" name="VIN" required><br>
 Pojemność: <input type="text" name="pojemnosc" required><br>
 Data pierwszej rejestracji: <input type="text" name="data_pierwszej_rejestracji" required><br>
 Kategoria: <input type="text" name="kategoria" required><br>
-Model: <input type="text" name="model" required><br>
+
+Marka Model <select name="model">
+		<?php while ($row = $result->fetch_assoc()) { ?>
+		<option value="<?php echo $row["kod_modelu"];?>">
+		<?php echo $row["marka"];?> <?php echo $row["kod_modelu"];?>
+		</option>
+		<?php } ?>
+		</select><br>
+
 Kolor: <input type="text" name="kolor" required><br>
 Data ważności badania: <input type="text" name="data_waznosci_badania"><br>
 <input type="submit">

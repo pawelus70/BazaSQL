@@ -5,3 +5,5 @@ Strona:
 -Usuwanie danych - Done
 -Update danych - (po skończeniu dodawania danych)
 -Szukanie danych - Done
+-Lista przy dodawaniu samochodu 
+-Zerwać relację typ właściciela przy zmianie (wywalić usuwanie) 
