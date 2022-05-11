@@ -31,13 +31,26 @@ if($result->num_rows == 0){
    <?php while ($row = $result->fetch_assoc()) { ?>
    <tr>
      <td><?php echo $row["vin_pojazdu"]; ?></td>
+     <td>
+     <form action="samochod.php" method="GET">
+      <input type="hidden" name="pola_szukaj" value="VIN" />
+      <input type="hidden" name="typ_szukania" value="<?php echo $row["vin_pojazdu"]?>" />
+      <input type="submit" value="Szczegóły">
+      </form>
+   </td>
      <td><?php echo $row["typ"]; ?></td>
      <td><?php echo $row["pesel_osoby"];?></td>
-     <td><button type="button">Właściciel</button></td>
+     <td>
+     <form action="osoba.php" method="GET">
+      <input type="hidden" name="pola_szukaj" value="<?php echo $row["pesel_osoby"]; ?>" />
+      <input type="hidden" name="typ_szukania" value="PESEL" />
+      <input type="submit" value="Szczegóły">
+      </form>
+    </td>
 	 <td>
 		<form action="wlasciciele.php" method="POST">
-		<input type="hidden" name="kosz" value="<?php echo $row["pesel_osoby"]; ?>">
-		<input type="submit" value="usuń">
+      <input type="hidden" name="kosz" value="<?php echo $row["pesel_osoby"]; ?>">
+      <input type="submit" value="usuń">
 		</form>
 	 </td>
    </tr>

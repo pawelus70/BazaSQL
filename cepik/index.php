@@ -24,7 +24,8 @@ echo "Połączono!\r\n";
 <a href="dane/wlasciciele.php">wlasciciele</a><br>
 <p>Chwilowo tutaj powstają formularze dodawania: </p>
 <a href="forms/formSamochody.php">dodaj_samochod</a><br>
-
+<a href="forms/formOsoby.php">dodaj_osobę</a><br>
+<a href="forms/formWlasciciel.php">dodaj_wlasciciel</a><br>
 
 
 </body>

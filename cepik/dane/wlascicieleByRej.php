@@ -31,7 +31,7 @@ printf("Select returned %d rows.\n", $result->num_rows, '\n');
       <input type="hidden" name="typ_szukania" value="PESEL" />
       <input type="submit" value="Szczegóły">
       </form>
-      </form>
+      
       </td>
    </tr>
    <?php } ?>
