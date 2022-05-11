@@ -36,6 +36,7 @@ Data badania: <input type="date" id="od" name="od"
 	   Ważność badania: <input type="date" id="do" name="do"
       > 
 usterka: <select name="usterka">
+		<option value=""></option>
 		<?php while ($row = $result2->fetch_assoc()) { ?>
 		<option value="<?php echo $row["kod_usterki"];?>">
 		<?php echo $row["opis_usterki"];?>

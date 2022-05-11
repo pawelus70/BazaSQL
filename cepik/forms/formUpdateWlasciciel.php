@@ -11,18 +11,39 @@ if(!empty($_POST["VIN"])){
 	$typ = ($_POST["typ"]);
 	$pesel = ($_POST["pesel"]);
 	
-	if(!($mysqli->query("INSERT INTO typ_wlasciciela VALUES ('$vin' , '$typ' , '$pesel' )"))){
+	if($typ == 'wlasciciel'){
+		//Usuń współwłaścicieli
+	if(!($mysqli->query("DELETE FROM typ_wlasciciela WHERE typ='wspolwlasciciel' && vin_pojazdu = '$vin'"))){
 		echo("Error description: " . $mysqli -> error);
 	}else{
-		echo("Dodano pomyślnie");
+		echo $vin;
+		echo $typ;
+		echo $pesel;
+		if($typ = 'wlasciciel'){
+		echo "Tak jest dobrze";
+		}
+	}
+		//Zaktualizuj właściciela
+	if(!($mysqli->query("UPDATE typ_wlasciciela SET pesel_osoby = '$pesel' WHERE vin_pojazdu = '$vin'"))){
+		echo("Error description: " . $mysqli -> error);
+	}else{
+		echo("Usunieto pomyślnie");
 	}		
+	}else if($typ == 'wspolwlasciciel'){
+		//Zaktualizuj współwłaściciela
+		if(!($mysqli->query("UPDATE typ_wlasciciela SET pesel_osoby = '$pesel' WHERE vin_pojazdu = '$vin' && typ = '$typ'"))){
+		echo("Error description: " . $mysqli -> error);
+	}else{
+		echo("Zmieniono pomyślnie");
+	}	
+	}
 }
 $result = $mysqli->query("SELECT VIN FROM `samochod`;");
 $result2 = $mysqli->query("SELECT PESEL FROM `osoba`;");
 ?>
 
-<form action="formWlasciciel.php" method="post">
-Dodaj:<br>
+<form action="formUpdateWlasciciel.php" method="post">
+Zaktualizuj:<br>
 VIN pojazdu: <select name="VIN">
 		<?php while ($row = $result->fetch_assoc()) { ?>
 		<option value="<?php echo $row["VIN"];?>"><?php echo $row["VIN"];?>
@@ -30,7 +51,6 @@ VIN pojazdu: <select name="VIN">
 		<?php } ?>
 		</select><br>
 typ: <select name="typ">
-		
 		<option value="wlasciciel">wlasciciel</option>
 		<option value="wspolwlasciciel">wspolwlasciciel</option>
 		</select><br>

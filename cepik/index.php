@@ -26,7 +26,9 @@ echo "Połączono!\r\n";
 <a href="forms/formSamochody.php">dodaj_samochod</a><br>
 <a href="forms/formOsoby.php">dodaj_osobę</a><br>
 <a href="forms/formWlasciciel.php">dodaj_wlasciciel</a><br>
+<a href="forms/formUpdateWlasciciel.php">zaktualizuj_wlasciciela</a><br>
 <a href="forms/formBadania.php">Badanie</a><br>
+
 
 </body>
 </html>
