@@ -1,9 +1,0 @@
-Procedura z usunięciem - (Nie widze)
-Strona:
--Filtrowanie - (stworzyłeś procedury i teraz trzeba będzie na około, chyba że da się do procedur argumenty dawać \\ Chyba że chodzi o szukanie że zaczynają się od "A..." to zrobiłem już)
--Dodawanie danych - WIP
--Usuwanie danych - Done
--Update danych - (po skończeniu dodawania danych)
--Szukanie danych - Done
--Lista przy dodawaniu samochodu 
--Zerwać relację typ właściciela przy zmianie (wywalić usuwanie) 
